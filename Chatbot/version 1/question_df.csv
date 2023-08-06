@@ -24,13 +24,7 @@ Most Profitable Companies,"-- Find the 3 most profitable companies in the entire
   result = result[result['rank'] <= 3][['company', 'profits']]
  
   return result"
-Workers With The Highest Salaries,"HINT: 
-- Filter worker salaries to the highest salary by using an aggregate function that returns the maximum value.
- - Combine the tables to output worker title(s) based on the result of the maximum value.
- 
- ### Edge Cases To Consider: 
- 
- - **First position tie:** Your solution should account for the possibility that two or more employees have the same salary.",2,"- Filter worker salaries to the highest salary by using an aggregate function that returns the maximum value.
+Workers With The Highest Salaries,Use aggregate function to filter worker salaries to the highest salary and combine tables to output worker title(s) based on the maximum value,2,"- Filter worker salaries to the highest salary by using an aggregate function that returns the maximum value.
  - Combine the tables to output worker title(s) based on the result of the maximum value.
  
  ### Edge Cases To Consider: 
@@ -63,14 +57,7 @@ Workers With The Highest Salaries,"HINT:
   result = max_salary
  
   return result"
-Users By Average Session Time,"-- Calculate each user's average session time. A session is defined as the time difference between a page_load and page_exit. For simplicity, assume a user has only 1 session per day and if there are multiple of the same events on that day, consider only the latest page_load and earliest page_exit, with an obvious restriction that load time event should happen before exit time event . Output the user_id and their average session time.",2,"- Use the merge() function to combine the `facebook_web_log` dataframe with itself, matching the `user_id` column, and suffixing the columns with `_load` and `_exit`.
- - Convert the `timestamp` columns to datetime format and extract the date portion.
- - Filter out rows where the `timestamp_load` is after the `timestamp_exit`.
- - Group the dataframe by `user_id` and `date_load`, and keep only the maximum `timestamp_load` and minimum `timestamp_exit` for each group.
- - Calculate the duration of each session by subtracting `timestamp_load` from `timestamp_exit`.
- - Filter out sessions with a duration of less than '0 days'.
- - Calculate the mean duration of sessions for each user by grouping the dataframe by `user_id` and applying the `np.mean()` function on the `duration` column.
- - Return the resulting dataframe as the output.","with all_user_sessions as (
+Users By Average Session Time,"-- Calculate each user's average session time. A session is defined as the time difference between a page_load and page_exit. For simplicity, assume a user has only 1 session per day and if there are multiple of the same events on that day, consider only the latest page_load and earliest page_exit, with an obvious restriction that load time event should happen before exit time event . Output the user_id and their average session time.",2,#NAME?,"with all_user_sessions as (
   SELECT t1.user_id, t1.timestamp::date as date,
   min(t2.timestamp::TIMESTAMP) - max(t1.timestamp::TIMESTAMP) as session_duration
   FROM facebook_web_log t1
@@ -81,13 +68,7 @@ Users By Average Session Time,"-- Calculate each user's average session time. A 
   GROUP BY 1, 2) 
  SELECT user_id, avg(session_duration)
  FROM all_user_sessions
- GROUP BY user_id",2,pandas.DataFrame,"PYTHON HINT:
-- Perform merge by using df.merge(df2, on = common_table_keys, how = 'inner')
-- Use notnull() to determine the non-missing values in the dataframe
-- Select specific column/s from the dataframe using [column_name] and then select rows with values not equal to age and seniority
-- Use the '&' operator to check if conditions are satisfied (True)
-- Use [ [ column_name/s] ] to return a specified column of the dataframe
-- Use .rename(columns = {'old_name':'new_name'}) to rename specific columns","def solution(facebook_web_log):
+ GROUP BY user_id",2,pandas.DataFrame,#NAME?,"def solution(facebook_web_log):
   import pandas as pd 
   import datetime as dt
   import numpy as np
@@ -307,26 +288,13 @@ New Products,-- You are given a table of product launches by company by year. Wr
   result = df[['company_name', 'net_new_products']]
  
   return result"
-Cities With The Most Expensive Homes,"HINT:
-- Use groupby() to group along a specific column and then use a specific function (e.g. mean()) to get the desired result
-- Use comparison operators to filter the data based on a condition
-- Use sort_values() to sort the data based on a specific column
-- Use reset_index(name='column_name') to rename the column in the resulting dataframe
-- Use np.mean() to calculate the average of a specific column in the dataframe
-- Use multiple sort_values() to sort the dataframe based on multiple columns
-- Store the result in a variable and return the desired column from the result dataframe",2,The HINT is: Use groupby() to group along a specific column and then use a specific function (e.g. mean()) to get the desired result,"SELECT city
+Cities With The Most Expensive Homes,HINT: Use the groupby() function to group the transactions by city and calculate the mean price. Then compare the average,2,#NAME?,"SELECT city
  FROM zillow_transactions a
  GROUP BY city
  HAVING avg(a.mkt_price) >
   (SELECT avg(mkt_price)
   FROM zillow_transactions)
- ORDER BY city ASC",2,pandas.DataFrame,"PYTHON HINT:
-- Perform merge by using df.merge(df2, on = common_table_keys, how = 'inner')
- - notnull() can be used to determine the non-missing values in the dataframe
- - Select specific column/s from dataframe using [column_name] then select rows with values not equal to ‘!=’ age and seniority
- - Use AND '&' to check if conditions are satisfied (True)
- - Use [ [ column_name/s] ] to return a specified column of the dataframe
- - Use .rename(columns = {'old_name':'new_name'}) to rename specific columns","def solution(zillow_transactions):
+ ORDER BY city ASC",2,pandas.DataFrame,#NAME?,"def solution(zillow_transactions):
   import pandas as pd
   import numpy as np
  
@@ -415,20 +383,12 @@ Naive Forecasting,"-- Some forecasting methods are extremely simple and surprisi
  
   return result"
 Class Performance,"-- You are given a table containing assignment scores of students in a class. Write a query that identifies the largest difference in total score of all assignments.
- -- Output just the difference in total score (sum of all 3 assignments) between a student with the highest score and a student with the lowest score.",2,"HINT:
-- Use the aggregate function MAX() and MIN() to find the highest and lowest total scores respectively
- - Take the difference between the highest and lowest total scores to get the largest difference","SELECT max(score)-min(score) AS difference_in_scores
+ -- Output just the difference in total score (sum of all 3 assignments) between a student with the highest score and a student with the lowest score.",2,#NAME?,"SELECT max(score)-min(score) AS difference_in_scores
  FROM
   (SELECT student,
   sum(assignment1+assignment2+assignment3) AS score
   FROM box_scores
-  GROUP BY student) a",1,pandas.DataFrame,"PYTHON HINT:
-- Perform merge by using df.merge(df2, on = common_table_keys, how = 'inner')
-- Use notnull() to determine the non-missing values in the dataframe
-- Use [column_name] to select specific columns, then select rows with values not equal to 'age' and 'seniority'
-- Use the '&' operator to check if both conditions are satisfied (True)
-- Use [ [column_name/s] ] to return a specified column of the dataframe
-- Use rename(columns = {'old_name':'new_name'}) to rename specific columns","def solution(box_scores):
+  GROUP BY student) a",1,pandas.DataFrame,#NAME?,"def solution(box_scores):
   import pandas as pd
   import numpy as np
  
@@ -464,24 +424,7 @@ Marketing Campaign Success [Intermediate],"-- You have a table of in-app purchas
   df2=df1[(df1[""cnt_created_at""]>1) & (df1[""cnt_product_id""]>1)] 
   result = df2['user_id'].nunique()
   result"
-Salaries Differences,"Based on the given solution and question, my best guess for the hint would be:
-- Use `pd.merge()` function to join two dataframes on a common column.
-- Use `groupby()` function to group the data by a specific column.
-- Use `max()` function to get the maximum value in a column.
-- Use `abs()` function to get the absolute difference between two values.
-- Rename columns using `reset_index(name='new_name')` to have a cleaner output.",1,"Based on the given solution and question, my best guess for the hint would be:
-- Use `pd.merge()` function to join two dataframes on a common column.
-- Use `groupby()` function to group the data by a specific column.
-- Use `max()` function to get the maximum value in a column.
-- Use `abs()` function to get the absolute difference between two values.
-- Rename columns using `reset_index(name='new_name')` to have a cleaner output.
-
-HINT:
-- Join two dataframes using `pd.merge()` on a common column.
-- Group the data by a specific column using `groupby()`.
-- Use `max()` function to get the maximum value in a column.
-- Use `abs()` function to get the absolute difference between two values.
-- Rename columns using `reset_index(name='new_name')` to have a cleaner output.","SELECT
+Salaries Differences,The hint is likely related to merging and filtering dataframes based on specific conditions.,1,#NAME?,"SELECT
   ABS((SELECT max(salary)
   FROM db_employee emp
   JOIN db_dept dept ON emp.department_id = dept.id
@@ -489,13 +432,7 @@ HINT:
   (SELECT max(salary)
   FROM db_employee emp
   JOIN db_dept dept ON emp.department_id = dept.id
-  WHERE department = 'engineering')) AS salary_difference",1,pandas.DataFrame,"PYTHON HINT:
-- Perform merge by using df.merge(df2, on = common_table_keys, how = 'inner')
-- Use notnull() to determine non-missing values in the dataframe
-- Select specific columns using [column_name] and filter rows with values not equal to age and seniority
-- Use the '&' operator to check if conditions are satisfied (True)
-- Use [ [ column_name/s] ] to return specified columns of the dataframe
-- Use .rename(columns = {'old_name':'new_name'}) to rename specific columns","def solution(db_employee,db_dept):
+  WHERE department = 'engineering')) AS salary_difference",1,pandas.DataFrame,#NAME?,"def solution(db_employee,db_dept):
   import pandas as pd
   import numpy as np
  
@@ -595,13 +532,7 @@ Distance Per Dollar,"-- You’re given a dataset of uber rides with the travelin
   distance_to_travel/monetary_cost AS dist_to_cost,
   sum(distance_to_travel) OVER (PARTITION BY to_char(request_date::date, 'YYYY-MM')) / sum(monetary_cost) OVER (PARTITION BY to_char(request_date::date, 'YYYY-MM')) AS monthly_dist_to_cost
   FROM uber_request_logs) a) b
- GROUP BY request_mnth",3,,"PYTHON HINT:
-- Perform merge by using df.merge(df2, on = common_table_keys, how = 'inner')
-- Use notnull() to determine the non-missing values in the dataframe
-- Select specific column/s from the dataframe using [column_name] and filter rows with values not equal to '!=' age and seniority
-- Use '&' to check if multiple conditions are satisfied (True)
-- Use [ [ column_name/s] ] to return a specified column of the dataframe
-- Use .rename(columns = {'old_name':'new_name'}) to rename specific columns","def solution(uber_request_logs):
+ GROUP BY request_mnth",3,,#NAME?,"def solution(uber_request_logs):
   import pandas as pd
   import numpy as np
   from datetime import datetime
@@ -639,10 +570,7 @@ Expensive Projects,"-- Given a list of projects and employees mapped to each pro
   df2=df1.sort_values(by='budget_emp_ratio',ascending=False)
   result = df2[[""title"",""budget_emp_ratio""]]
   return result"
-Premium vs Freemium,"-- Find the total number of downloads for paying and non-paying users by date. Include only records where non-paying customers have more downloads than paying customers. The output should be sorted by earliest date first and contain 3 columns -- date, non-paying downloads, paying downloads.",3,"- Join the tables `ms_user_dimension`, `ms_acc_dimension`, `ms_download_facts` using left join
- - Use pivot to create columns for total downloads for non-paying customers and paying customers
- - Output should contain 3 columns: date, non-paying downloads, and paying downloads
- - Sort the output by date in ascending order.","SELECT date, non_paying,
+Premium vs Freemium,"-- Find the total number of downloads for paying and non-paying users by date. Include only records where non-paying customers have more downloads than paying customers. The output should be sorted by earliest date first and contain 3 columns -- date, non-paying downloads, paying downloads.",3,#NAME?,"SELECT date, non_paying,
   paying
  FROM
   (SELECT date, sum(CASE
@@ -675,9 +603,7 @@ Premium vs Freemium,"-- Find the total number of downloads for paying and non-pa
   result = df4[[""date"",""no"",""yes""]].sort_values(""date"")
   return result"
 Finding Updated Records,"- Ideally this dataset should consists of unique records of employees for only current year
- - Due to this ETL error multiple years of data can be found for some employees
- - Until now at every compensation revision cycle, all employees have received a salary increase so you can assume that the highest salary is the employee's current salary. Use a max() function to find the highest salary for each employee.
- - The output should be all the details of all the employees with correct salary",1,"- Ideally this dataset should consists of unique records of employees for only current year
+ - Due to this ETL error multiple years",1,"- Ideally this dataset should consists of unique records of employees for only current year
  - There are multiple years of data can be found for some employees
  - Until now at every compensation revision cycle, all employees have received a salary increase so you can assume that the highest salary is the employee's current salary. Use a max() function to find the highest salary for each employee.
  - The output should be all the details of all the employees with correct salary","SELECT id,
@@ -793,14 +719,7 @@ Meta/Facebook Accounts,"-- Assuming we have accounts that were opened and closed
   count(DISTINCT CASE WHEN status = 'open' THEN acc_id END) AS open
   FROM fb_account_status
   GROUP BY date) t
- WHERE date = '01-10-2020'",2,pandas.DataFrame,"The Python hint would be: 
-
-- Perform merge by using df.merge(df2, on = common_table_keys, how = 'inner')
-- notnull() can be used to determine the non-missing values in the dataframe
-- Select specific column/s from dataframe using [column_name] then select rows with values not equal to ‘!=’ age and seniority
-- Use AND '&' to check if conditions are satisfied (True)
-- Use [ [ column_name/s] ] to return a specified column of the dataframe
-- Use .rename(columns = {'old_name':'new_name'}) to rename specific columns","def solution(fb_account_status):
+ WHERE date = '01-10-2020'",2,pandas.DataFrame,#NAME?,"def solution(fb_account_status):
   import pandas as pd
   import numpy as np
  
@@ -833,13 +752,7 @@ Most Active Users On Messenger,"-- Meta/Facebook Messenger stores the number of 
  GROUP BY username)
  select username, total_msg_count from sq
  where rank <= 10
- ORDER BY total_msg_count DESC",2,pandas.DataFrame,"PYTHON HINT:
-- Perform merge by using df.merge(df2, on = common_table_keys, how = 'inner')
-- Use notnull() to determine non-missing values in the dataframe
-- Select specific column(s) from the dataframe using [column_name] and filter rows with values not equal to 'age' and 'seniority'
-- Use the '&' operator to check if conditions are satisfied (True)
-- Use [ [ column_name/s] ] to return a specified column of the dataframe
-- Use .rename(columns = {'old_name':'new_name'}) to rename specific columns","def solution(fb_messages):
+ ORDER BY total_msg_count DESC",2,pandas.DataFrame,#NAME?,"def solution(fb_messages):
   import pandas as pd
   import numpy as np
  
@@ -888,7 +801,7 @@ SMS Confirmations From Users,"-- Meta/Facebook sends SMS texts when users attemp
   df3_grouped_0804 = df3_grouped[df3_grouped['date']=='08-04-2020']
   result = (float(df3_grouped_0804['confirmed_count'])/df1_grouped_0804['count'])*100
   return result"
-SMS Confirmations by FB,"-- Find the number of phone numbers that were sent a confirmation SMS text by carrier on August 7, 2020 (08-07-2020). Group the counts by country and create a separate column for each of the three carriers (at&t, sprint, rogers). Sort by country code in ascending order.",2,"- Use groupby() and unstack() to get the count of phone numbers to whom confirmation messages were sent, grouped by country and carrier","SELECT country, 
+SMS Confirmations by FB,"-- Find the number of phone numbers that were sent a confirmation SMS text by carrier on August 7, 2020 (08-07-2020). Group the counts by country and create a separate column for each of the three carriers (at&t, sprint, rogers). Sort by country code in ascending order.",2,#NAME?,"SELECT country, 
   count(CASE WHEN carrier = 'at&t' THEN phone_number ELSE NULL END) as atnt,
   count(CASE WHEN carrier = 'rogers' THEN phone_number ELSE NULL END) as rogers,
   count(CASE WHEN carrier = 'sprint' THEN phone_number ELSE NULL END) as sprint
@@ -917,13 +830,7 @@ Top Engagements,"-- Calculate the percentage of search results, out of all the r
   ELSE NULL
   END) * 1.0 / COUNT(fr.search_id) * 100 AS percentage
  FROM fb_search_results AS fr
- LEFT JOIN fb_search_events AS fe ON fr.search_id = fe.search_id",2,pandas.DataFrame,"PYTHON HINT:
-- Perform merge by using df.merge(df2, on = common_table_keys, how = 'inner')
-- Use notnull() to determine non-missing values in the dataframe
-- Select specific column/s from the dataframe using [column_name] and select rows with values not equal to 'age' and 'seniority'
-- Use '&' to check if conditions are satisfied (True)
-- Use [ [ column_name/s ] ] to return a specified column of the dataframe
-- Use .rename(columns = {'old_name':'new_name'}) to rename specific columns","def solution(fb_search_events):
+ LEFT JOIN fb_search_events AS fe ON fr.search_id = fe.search_id",2,pandas.DataFrame,#NAME?,"def solution(fb_search_events):
   import pandas as pd
   import numpy as np
   
@@ -1142,8 +1049,7 @@ Find the top-ranked songs for the past 20 years.,-- Find all the songs that were
   billboard_top_100_year_end['year_diff'] = datetime.now().year - billboard_top_100_year_end['year']
   result = billboard_top_100_year_end[(billboard_top_100_year_end['year_diff'] <=20) & (billboard_top_100_year_end['year_rank'] == 1)]['song_name'].unique()
   return result"
-Find all inspections which are part of an inactive program,"- Use the pandas dataframe indexing operator [ ] to filter rows based on a condition specified using the 'program_status' column.
- - In the condition, specify that only rows with the value 'INACTIVE' for the 'program_status' column should be selected.",1,- Inactive programs have the value 'INACTIVE' for the program_status column.,"SELECT
+Find all inspections which are part of an inactive program,Select rows from the dataframe where the value in the 'program_status' column is 'INACTIVE'.,1,- Inactive programs have the value 'INACTIVE' for the program_status column.,"SELECT
   *
  FROM
   los_angeles_restaurant_health_inspections
@@ -1174,8 +1080,7 @@ Find the price of the most expensive beach properties for each city,"-- Find the
   result = beach.groupby(['city'])['price'].max().reset_index()
   return result"
 Ride Request Status,"-- Find the mean and standard deviation of each variable for each request status type.
- -- Output the request status along with the corresponding mean and standard deviation variables: `distance_to_travel`, `monetary_cost`, and `driver_to_client_distance`.",3,"- Group by request_status using groupby() then to perform or apply multiple functions to the dataframes column simultaneously, use agg() with 'mean'to get average of elements, std for the standard deviation; use reset_index() to realign indexes
- - Clean resulting multilevel column indexes by using df.columns.droplevel(0)","SELECT
+ -- Output the request status along with the corresponding mean and standard deviation variables: `distance_to_travel`, `monetary_cost`, and `driver_to_client_distance`.",3,#NAME?,"SELECT
   request_status,
   
   AVG(distance_to_travel) AS mean_distance_to_travel,
@@ -1227,8 +1132,7 @@ Ride Request Correlation Variables,"-- Find the correlation between pairs of the
  -- Output the request status along with corresponding pairs:
   -- - Correlation between distance to travel and monetary cost.
   -- - Correlation between distance to travel and driver to client distance.
-  -- - Correlation between monetary cost and driver to client distance.",3,"HINT:
-- Group by request_status using groupby() then use corr() to get the correlation between the selected features per group; use reset_index() to realign the resulting multilevel column indexes","SELECT
+  -- - Correlation between monetary cost and driver to client distance.",3,#NAME?,"SELECT
   request_status,
   
   corr(distance_to_travel, monetary_cost) AS c1,
@@ -1265,9 +1169,7 @@ European and Non-European Olympics,"-- Add a column to each row which will class
   result = olympics_athletes_events
  
   return result"
-Order all countries by the year they first participated in the Olympics,"HINT:
-- Use the MIN() function to find the first year a country participated in the Olympics.
-- Group records by the NOC.",1,"- Use the MIN() function to find the first year a country participated in the Olympics.
+Order all countries by the year they first participated in the Olympics,Group records by the NOC column and find the minimum value of the year column for each group. Convert the resulting object to,1,"- Use the MIN() function to find the first year a country participated in the Olympics.
  - Group records by the NOC.","SELECT
   noc,
   min(year) AS first_time_year
@@ -1384,11 +1286,7 @@ Health Inspections Per Street,"-- Find the number of inspections for each street
   result = null_risk.groupby(['street'])['inspection_id'].nunique().to_frame('number_of_risky_restaurants').reset_index().sort_values(['number_of_risky_restaurants', 'street'], ascending=[False, True])
   
   return result"
-Find the lowest score for each facility in Hollywood Boulevard,"HINT:
-- Use MIN() function to find the lowest score for each facility
-- Use the ILIKE operator for the string pattern 'HOLLYWOOD BLVD' to find facilities in Hollywood Boulevard.
-- Use GROUP BY to group the result based on the facility name.
-- Use ORDER BY on both the lowest score and the facility name to sort the result.",2,"- Use MIN() function to find the lowest score for each facility
+Find the lowest score for each facility in Hollywood Boulevard,Find the facilities on Hollywood Boulevard with the lowest score. Output the result along with the facility name. Sort the result based on,2,"- Use MIN() function to find the lowest score for each facility
  - Use the ILIKE operator for the string pattern 'HOLLYWOOD BLVD' to find facilities in Hollywood Boulevard.
  - Use GROUP BY to group the result based on the facility name.
  - Use ORDER BY on both the lowest score and the facility name to sort the result.","SELECT
@@ -1412,12 +1310,8 @@ Find the lowest score for each facility in Hollywood Boulevard,"HINT:
   hollywood = los_angeles_restaurant_health_inspections[los_angeles_restaurant_health_inspections['facility_address'].str.contains('HOLLYWOOD BLVD')]
   result = hollywood.groupby(['facility_name'])['score'].min().to_frame('min_score').reset_index().sort_values(['min_score','facility_name'], ascending = [False, True])
   return result"
-Businesses Open On Sunday,"HINT:
-- Perform left join by using df.merge(df2, on = common_table_keys, how = 'left')
-- Filter out rows that are not null by using notnull()
-- Use .groupby(column_name) to group the dataframe about the specifed column and use size() to get the number of elements per group
-- Convert the resulting object to a dataframe using to_frame()
-- Use sort_values(column_name, order) to sort along a specified column; Set order to False to display the printed values in descending order",2,"- Use the COUNT() function to count the number of businesses.
+Businesses Open On Sunday,"Use LEFT JOIN on business id to combine records form both datasets.
+ - Filter out records with the value of NULL for the sunday",2,"- Use the COUNT() function to count the number of businesses.
  - Use LEFT JOIN on business id to combine records form both datasets.
  - Filter out records with the value of NULL for the sunday column using a WHERE clause.
  - Group records by sunday.","SELECT 
@@ -1441,22 +1335,11 @@ Businesses Open On Sunday,"HINT:
   merged = merged[(merged['sunday'].notnull()) & (merged['is_open']==1)]
   result = merged.groupby(['sunday']).size().to_frame('total_business').reset_index().sort_values('total_business', ascending = False)
   return result"
-Bikes Last Used,"-- Find the last time each bike was in use. Output both the bike number and the date-timestamp of the bike's last use (i.e., the date-time the bike was returned). Order the results by bikes that were most recently used.",1,"HINT:
-- Use the groupby() function to group the data by bike number
- - Use the max() function to find the latest end time for each bike
- - Use the to_frame() function to convert the result to a dataframe
- - Reset the index of the dataframe using reset_index()
- - Sort the dataframe by the last used date in descending order","SELECT bike_number,
+Bikes Last Used,"-- Find the last time each bike was in use. Output both the bike number and the date-timestamp of the bike's last use (i.e., the date-time the bike was returned). Order the results by bikes that were most recently used.",1,#NAME?,"SELECT bike_number,
   max(end_time) last_used
  FROM dc_bikeshare_q1_2012
  GROUP BY bike_number
- ORDER BY last_used DESC",1,pandas.DataFrame,"PYTHON HINT:
-- Perform merge by using df.merge(df2, on = common_table_keys, how = 'inner')
-- Use notnull() to determine the non-missing values in the dataframe
-- Select specific column/s from dataframe using [column_name] then select rows with values not equal to 'age' and 'seniority'
-- Use '&' to check if conditions are satisfied (True)
-- Use [ [ column_name/s] ] to return a specified column of the dataframe
-- Use .rename(columns = {'old_name':'new_name'}) to rename specific columns","def solution(dc_bikeshare_q1_2012):
+ ORDER BY last_used DESC",1,pandas.DataFrame,#NAME?,"def solution(dc_bikeshare_q1_2012):
   import pandas as pd
  
   result = dc_bikeshare_q1_2012.groupby('bike_number')['end_time'].max().to_frame( 'last_used').reset_index().sort_values(by='last_used', ascending=False)
@@ -1496,12 +1379,7 @@ Days At Number One,"-- Find the number of days a US track has stayed in the 1st 
   top1['ndays'] = top1.groupby(['trackname'])['world_position'].transform('sum')
   result = top1.groupby(['trackname'])['ndays'].max().to_frame('ndays').reset_index().sort_values('trackname')
   return result"
-Best Selling Item,-- Find the best selling item for each month (no need to separate months by year) where the biggest total invoice was paid. The best selling item is calculated using the formula (unitprice * quantity). Output the description of the item along with the amount paid.,3,"- Create a column containing the month from invoice date
- - Create a column that contains the best selling item or the product of unit price and quantity
- - Groupby month and use transform() to get the running total for invoices per month
- - Filter out rows where total invoice is equal to the max of the total invoice
- - Filter out the resulting dataframe and select rows where best selling item is equal to the max of all best selling items
- - Use [ [ column_name/s] ] to return a specified column of the dataframe","SELECT MONTH,
+Best Selling Item,-- Find the best selling item for each month (no need to separate months by year) where the biggest total invoice was paid. The best selling item is calculated using the formula (unitprice * quantity). Output the description of the item along with the amount paid.,3,#NAME?,"SELECT MONTH,
   description,
   total_paid
  FROM
@@ -1531,13 +1409,9 @@ Best Selling Item,-- Find the best selling item for each month (no need to separ
   result = result[result['rnk']==1][['month', 'description','total_paid']].sort_values(['month'])
   
   return result"
-Find the genre of the person with the most number of oscar winnings,"HINT:
-- Use nested inner queries to find the number of winning of each nominee using COUNT() and OVER() functions.
- - Winners have the value of 'true' for the winner column.
- - Order records by the number of winnings in descending order and by the nominee in ascending order.
- - Use LIMIT to find the highest record.
- - Use an INNER JOIN on the nominee in an outer query to combine the results of inner queries with the nominee_information dataset.
- - Output desired result in the outer query.",3,"- Use nested inner queries to find the number of winning of each nominee using COUNT() and OVER() functions.
+Find the genre of the person with the most number of oscar winnings,"Find the genre with the highest number of winnings.
+
+",3,"- Use nested inner queries to find the number of winning of each nominee using COUNT() and OVER() functions.
  - Winners have the value of 'true' for the winner column.
  - Order records by the number of winnings in descending order and by the nominee in ascending order.
  - Use LIMIT to find the highest record.
@@ -1576,10 +1450,8 @@ Find the genre of the person with the most number of oscar winnings,"HINT:
   merged = pd.merge(n_winnings, nominee_information, left_on = 'nominee', right_on = 'name', how = 'left')
   result = merged.groupby(['top_genre']).apply(lambda x: x.nlargest(1, 'n_win')).reset_index(drop=True).sort_values('n_win',ascending = False).head(1)[['top_genre']]
   return result"
-Gender With Most Doctor Appointments,"HINT:
-- Use a GROUP BY gender and a count() to get the total appointments by gender
-   - Sort by highest number of appointments using an ORDER BY
-   - LIMIT 1 to get the highest number",1,"- Use a GROUP BY gender and a count() to get the total appointments by gender
+Gender With Most Doctor Appointments,"Use a GROUP BY gender and a count() to get the total appointments by gender.
+Sort by highest number of appointments using an",1,"- Use a GROUP BY gender and a count() to get the total appointments by gender
  - Sort by highest number of appointments using an ORDER BY
  - LIMIT 1 to get the highest number","SELECT gender,
   count(appointmentid) AS n_appointments
@@ -1623,34 +1495,22 @@ Highest Total Miles,-- You’re given a table of Uber rides that contains the mi
   result = df_grouped[df_grouped['rank'] <= 3][['purpose', 'miles']]
  
   return result"
-Number Of Records By Variety,"HINT: Use the groupby() function to group the data by variety and count the number of entries in each group. Then, sort the result by variety.",1,"HINT: 
-- Use the groupby() function to group the data by variety and count the number of entries in each group. Then, sort the result by variety.","SELECT variety,
+Number Of Records By Variety,"Find the count of sepal_length for each variety of iris flowers. Sort the result based on the variety.
+
+HINT:
+",1,#NAME?,"SELECT variety,
   count(variety) n_total_varieties
  FROM iris
  GROUP BY variety
- ORDER BY variety",1,pandas.DataFrame,"The Python hint for the given question and solution is:
-- Perform merge by using df.merge(df2, on = common_table_keys, how = 'inner')
-- Use notnull() to determine the non-missing values in the dataframe
-- Select specific column/s from dataframe using [column_name] then select rows with values not equal to '!=' age and seniority
-- Use '&' to check if conditions are satisfied (True)
-- Use [ [ column_name/s] ] to return a specified column of the dataframe
-- Use .rename(columns = {'old_name':'new_name'}) to rename specific columns","def solution(iris):
+ ORDER BY variety",1,pandas.DataFrame,#NAME?,"def solution(iris):
   import pandas as pd
  
   result = iris.groupby(['variety'])['sepal_length'].count().reset_index().sort_values(by='variety')
   
   return result"
-Total Number Of Housing Units,"HINT:
+Total Number Of Housing Units,"HINT: 
 - Convert south, west, midwest, northeast to integer using astype()
-- Create a column containing the sum of south, west, midwest, northeast
-- Group by year using groupby() and use transform() with sum() to get the running sum of housing per group or year
-- Remove duplicates by using drop_duplicates() then use [[column_name]] to select desired columns to be kept
-- Sort along reviewer_score using sort_values()",1,"HINT: 
-- Convert south, west, midwest, northeast to integer using astype()
-- Create a column containing the sum of south, west, midwest, northeast
-- Group by year using groupby() and use transform() with sum() to get the running sum of housing per group or year
-- Remove duplicates by using drop_duplicates() then use [[column_name]] to select desired columns to be kept
-- Sort along reviewer_score using sort_values()","SELECT year,
+ - Create a column containing",1,#NAME?,"SELECT year,
   SUM(south + west + midwest + northeast) AS n_units
  FROM housing_units_completed_us
  GROUP BY 1
@@ -1663,22 +1523,13 @@ Total Number Of Housing Units,"HINT:
   result['total'] = result['south'] + result['west'] + result['midwest'] + result['northeast'] 
   result = result[['year', 'total']]
   return result"
-Reviews of Hotel Arena,"-- Find the number of rows for each review score earned by 'Hotel Arena'. Output the hotel name (which should be 'Hotel Arena'), review score along with the corresponding number of rows with that score for the specified hotel.",1,"- Use the **groupby()** function to group the rows by 'reviewer_score' and 'hotel_name'
- - Use the **size()** function to get the number of rows with each score
- - Convert the resulting series to a dataframe using **to_frame('n_reviews')**
- - Reset the index of the dataframe using **reset_index()**","SELECT hotel_name,
+Reviews of Hotel Arena,"-- Find the number of rows for each review score earned by 'Hotel Arena'. Output the hotel name (which should be 'Hotel Arena'), review score along with the corresponding number of rows with that score for the specified hotel.",1,#NAME?,"SELECT hotel_name,
   reviewer_score,
   count(*)
  FROM hotel_reviews
  WHERE hotel_name = 'Hotel Arena'
  GROUP BY hotel_name,
-  reviewer_score",1,pandas.DataFrame,"PYTHON HINT:
-- Perform merge by using df.merge(df2, on = common_table_keys, how = 'inner')
-- Use notnull() to determine the non-missing values in the dataframe
-- Select specific column/s from dataframe using [column_name] then select rows with values not equal to '!= age and seniority'
-- Use '&' to check if conditions are satisfied (True)
-- Use [ [ column_name/s] ] to return a specified column of the dataframe
-- Use .rename(columns = {'old_name':'new_name'}) to rename specific columns","def solution(hotel_reviews):
+  reviewer_score",1,pandas.DataFrame,#NAME?,"def solution(hotel_reviews):
   import pandas as pd
   import numpy as np
  
@@ -1705,9 +1556,7 @@ Activity Rank,"-- Find the email activity rank for each user. Email activity ran
   result = result.sort_values(by=['rank', 'from_user'])
  
   return result"
-Total AdWords Earnings,"HINT:
-- Create a column containing the running sum per group by grouping the dataframe according to business_type using groupby() and using transform() with sum()
-- From here, group by again business_type then use max() of the running sum to get the maximum value per group",1,- Use a sum() function and GROUP BY to find the total earnings by business type,"SELECT 
+Total AdWords Earnings,Find the total earnings by business type.,1,- Use a sum() function and GROUP BY to find the total earnings by business type,"SELECT 
   business_type, 
   sum(adwords_earnings) as earnings
  FROM google_adwords_earnings
@@ -1720,14 +1569,7 @@ Total AdWords Earnings,"HINT:
  
   return result"
 Product Transaction Count,"HINT:
-- Use pd.merge(dataframe1, dataframe2, on = common_table_keys, how = inner) to perform inner join on the dataframes
-- Filter out rows by selecting specific column/s from dataframe using [column_name] then select rows product_id of sql transaction that are not null using notnull()
-- Group by product_id using groupby() and use transform() with count() to get the count or number of transactions per group or product
-- Remove duplicates by using drop_duplicates() then use [[column_name]] to select desired columns to be kept",2,"HINT:
-- Use pd.merge(dataframe1, dataframe2, on = common_table_keys, how = left) to perform left join on the dataframes
-- Filter out rows by selecting specific column/s from dataframe using [column_name] then select rows product_id of sql transaction that are not null using notnull()
-- Group by product_id using groupby() and use transform() with count() to get the count or number of transactions per group or product
-- Remove duplicates by using drop_duplicates() then use [[column_name]] to select desired columns to be kept","SELECT product_name,
+- Use pd.merge(dataframe1, dataframe2, on = common_table_keys, how = inner) to",2,#NAME?,"SELECT product_name,
   count(transaction_id)
  FROM excel_sql_inventory_data i
  JOIN excel_sql_transaction_data t ON i.product_id = t.product_id
@@ -1751,15 +1593,7 @@ Product Transaction Count,"HINT:
   result = merged.sort_values('product_id')[['product_name', 'count']]
   return result"
 Number Of Acquisitions,"HINT:
-- Filter out rows by selecting specific column/s from dataframe using [column_name] then select rows acquirer_permalink that are not null using notnull()
-- Sort according to acquirer_permalink by using sort_values() then remove duplicates using drop_duplicates(); 
-- After which, create a column that countains the count per acquired_quarter by using np.arange(len(df))+1
-- Use [[column_name]] to select desired columns to be kept and sort again along acquirer_permalink",1,"The hint is:
-
-- Filter out rows by selecting specific column/s from dataframe using [column_name] then select rows acquirer_permalink that are not null using notnull()
- - Sort according to acquirer_permalink by using sort_values() then remove duplicates using drop_duplicates(); 
- - After which, create a column that countains the count per acquired_quarter by using np.arange(len(df))+1
- - Use [[column_name]] to select desired columns to be kept and sort again along acquirer_permalink","SELECT acquired_quarter,
+- Filter out rows by selecting specific column/s from dataframe using [column_name] then select rows acquirer_permalink",1,#NAME?,"SELECT acquired_quarter,
   count(id) AS cnt_acq
  FROM crunchbase_acquisitions
  GROUP BY acquired_quarter
@@ -1771,7 +1605,7 @@ Number Of Acquisitions,"HINT:
   result = crunchbase_acquisitions.groupby('quarter_year').size().to_frame('size').reset_index().sort_values('size', ascending = False)
   return result"
 Ranking Hosts By Beds,"-- Rank each host based on the number of beds they have listed. The host with the most beds should be ranked 1 and the host with the least number of beds should be ranked last. Hosts that have the same number of beds should have the same rank but there should be no gaps between ranking values. A host can also own multiple properties. 
- -- Output the host ID, number of beds, and rank from highest rank to lowest.",2,"Use .rank(method = 'dense', order) to compute for the numerical dense ranking in a certain order of the column values","SELECT 
+ -- Output the host ID, number of beds, and rank from highest rank to lowest.",2,#NAME?,"SELECT 
   host_id, 
   sum(n_beds) as number_of_beds,
   DENSE_RANK() OVER(ORDER BY sum(n_beds) DESC) as rank
@@ -1786,7 +1620,7 @@ Ranking Hosts By Beds,"-- Rank each host based on the number of beds they have l
   result = result.sort_values(by='rank')
   
   return result"
-Rank guests based on their ages,Use .rank(order) to compute for the numerical ranking in a certain order of the column values,1,- Use the combination of RANK() OVER() functions to order records by the age in descending order and retrieve the rank.,"SELECT 
+Rank guests based on their ages,Use the combination of RANK() OVER() functions to order records by the age in descending order and retrieve the rank.,1,- Use the combination of RANK() OVER() functions to order records by the age in descending order and retrieve the rank.,"SELECT 
   guest_id,
   RANK() OVER(ORDER BY age DESC)
  FROM airbnb_guests",1,pandas.DataFrame,"- Use .rank(order) to compute for the numerical ranking in a certain order of the column values
@@ -1799,11 +1633,7 @@ Rank guests based on their ages,Use .rank(order) to compute for the numerical ra
   result = airbnb_guests[['guest_id','rank']].sort_values('rank',ascending = True)
   return result"
 Ranking Most Active Guests,"-- Rank guests based on the number of messages they've exchanged with the hosts. Guests with the same number of messages as other guests should have the same rank. Do not skip rankings if the preceding rankings are identical.
- -- Output the rank, guest id, and number of total messages they've sent. Order by the highest number of total messages first.",2,"- Use the groupby() function to group the data by guest id and calculate the sum of messages exchanged.
- - Use the rank() function with the method parameter set to 'dense' to assign ranks to the guests based on the number of messages.
- - Sort the dataframe by the number of messages in descending order, followed by the guest id in ascending order.
- - Pop the 'ranking' column from the dataframe and insert it at the first position.
- - Return the resulting dataframe as the solution.","SELECT 
+ -- Output the rank, guest id, and number of total messages they've sent. Order by the highest number of total messages first.",2,#NAME?,"SELECT 
   DENSE_RANK() OVER(ORDER BY sum(n_messages) DESC) as ranking, 
   id_guest, 
   sum(n_messages) as sum_n_messages
@@ -1859,9 +1689,7 @@ Number Of Units Per Nationality,"-- Find the number of apartments per nationalit
   'apartment_count').reset_index().sort_values('apartment_count')
  
   return result"
-Find the number of Yelp businesses that sell pizza,"HINT:
-- Use str.contains(pattern) to check if the value is contained within a string
-- Get the count of rows using len(dataframe)",1,"- Use the COUNT() function to count the number of businesses.
+Find the number of Yelp businesses that sell pizza,HINT: Use the COUNT() function to count the number of businesses.,1,"- Use the COUNT() function to count the number of businesses.
  - Use the WHERE clause to find records that contain the string pattern '%Pizza%' in the categories column value.","SELECT 
   count(*) 
  FROM yelp_business 
@@ -2019,11 +1847,7 @@ Find the top 5 cities with the most 5 star businesses,"-- Find the top 5 cities 
   result = stars[stars['rank'] <= 5][['city', 'count_of_5_stars']].sort_values('count_of_5_stars', ascending = False)
  
   return result"
-Find countries that are in winemag_p1 dataset but not in winemag_p2,"- For Both dataframes, clean the country column by removing the null values using notnull() and empty strings
-- For both, select only the country column using [[column_name]] then apply drop_duplicates() to return only distinct country values
-- Perform a left join using pd.merge(), eliminating duplicates in df2 so that each row of df1 joins with exactly 1 row of df2. Use the parameter indicator to return an extra column indicating which table the row was from.
-- Filter out rows by selecting specific column/s from dataframe using [column_name] then select rows under '_merge' to be equal to '==' left_only. Filter the columns to return only the country
-- Use sort_values() to sort along country",2,"- Use two queries to find distinct country names present in both datasets.
+Find countries that are in winemag_p1 dataset but not in winemag_p2,Find distinct country names present in both datasets.,2,"- Use two queries to find distinct country names present in both datasets.
  - Filter out records from the winemag_p1 dataset with NULL values for the country column.
  - Filter out records from the winemag_p2 dataset with empty (' ') values for the country column.
  - Use EXCEPT to combine results and get the desired output.","SELECT DISTINCT country
@@ -2129,8 +1953,7 @@ Average Weight of Medal-Winning Judo,-- Find the average weight of medal-winning
   result = judo.groupby('team')['weight'].mean().reset_index()
   result
   return result"
-Find players who participated in the Olympics representing more than one team,"HINT:
-- Select all rows containing ""/"", which represents multiple teams, using str.contains(pattern) to return values containing the pattern",1,"- Multi-team players have value in the format of 'country1/country2' for the team column.
+Find players who participated in the Olympics representing more than one team,Use the ILIKE operator on the column team for the string pattern '%/%' to find players who represented more than one team,1,"- Multi-team players have value in the format of 'country1/country2' for the team column.
  - Use the ILIKE operator on the column team for the string pattern '%/%' to find players who represented more than one team.","SELECT
   name, 
   team,
@@ -2217,13 +2040,7 @@ Apple Product Counts,"-- Find the number of Apple product users and the number o
   ]
  
   return result"
-MacBook Pro Events,"HINT:
-- Use an INNER JOIN on user id to combine records of both tables.
-- Use the COUNT() function to find the number of MacBook-Pro users.
-- Users who are speaking Spanish have the value 'spanish' in the language column.
-- Events performed in Argentina have the value 'Argentina' in the location column.
-- Events performed on MacBook-Pro have value 'macbook pro' in the device column.
-- Use the WHERE clause to find records that satisfy the language, location, and device requirements",2,"- Use an INNER JOIN on user id to combine records of both tables.
+MacBook Pro Events,QUESTION,2,"- Use an INNER JOIN on user id to combine records of both tables.
  - Use the COUNT() function to find the number of MacBook-Pro users.
  - Users who are speaking Spanish have the value 'spanish' in the language column.
  - Events performed in Argentina have the value 'Argentina' in the location column.
@@ -2254,11 +2071,7 @@ MacBook Pro Events,"HINT:
   filtered_df = merged[(merged['language'] != 'spanish') & (merged['location'] == 'Argentina') & (merged['device'] == 'macbook pro')]
   result = filtered_df.groupby(['company_id','language']).size().to_frame('n_events').reset_index()
   return result"
-Number of Speakers By Language,"HINT:
-- Use pd.merge(dataframe1, dataframe2, on = common_table_keys) to perform inner join on the dataframes
-- Use .groupby(column_name) to group the dataframe about the specifed column and use size() to get the number of elements or count per group
-- Convert the resulting object to a dataframe using to_frame()
-- Use sort_values(column_name, order) to sort along a specified column; Set order to False to display the printed values in descending order",2,"- Take the location column values as country names.
+Number of Speakers By Language,QUESTION,2,"- Take the location column values as country names.
  - Use an INNER JOIN on user id to combine records of two tables.
  - Use the COUNT() function to count the number of speakers.
  - Group records by location and the language.","SELECT events.location,
@@ -2285,11 +2098,7 @@ Number of Speakers By Language,"HINT:
   .sort_values([""location"", ""n_speakers""], ascending=[True, False])
   )
   return result"
-Find the average height of players in the position 'RB' by division,"INNER JOIN on school name and position 'RB' to combine records from two dataframes.
-Group the resulting merged dataframe by the division.
-Convert the 'height' column from string to integer using astype(int).
-Use .groupby('division')['height'].mean() to calculate the average height for each division.
-Return the resulting series.",2,"- Use an INNER JOIN to combine records on school name and the player position 'RB'.
+Find the average height of players in the position 'RB' by division,Use an INNER JOIN to combine records on school name and the player position 'RB'. Group records by the division.,2,"- Use an INNER JOIN to combine records on school name and the player position 'RB'.
  - Group records by the division.","SELECT
   teams.division,
   avg(height) AS average_height
@@ -2312,9 +2121,7 @@ Return the resulting series.",2,"- Use an INNER JOIN to combine records on schoo
   RB['height'] = RB['height'].astype(int)
   result = RB.groupby(['division'])['height'].mean()
   return result"
-Even-numbered IDs Hired in June,"HINT:
-- Extract the month from `joining_date` and filter to June(6).
-- Filter to records divisible by 2, for example in PostgreSQL use `MOD` and in Python use `% 2`.",1,"- Extract the month from `joining_date` and filter to June(6).
+Even-numbered IDs Hired in June,Extract the month from `joining_date` and filter to June(6).,1,"- Extract the month from `joining_date` and filter to June(6).
  - Filter to records divisible by 2, for example in PostgreSQL use `MOD` and in Python use `% 2`.
  
  ### Edge Cases To Consider: 
@@ -2341,9 +2148,8 @@ Even-numbered IDs Hired in June,"HINT:
  
  
  return result"
-Odd-numbered ID's Hired in February,"- Extract the month from `joining_date` and filter to February(2).
-- Filter to records not divisible by 2, for example in PostgreSQL use `MOD` and in Python use `% 2`.
-- **Date filter:** Results must be specifically for the month of June.",1,"- Extract the month from `joining_date` and filter to February(2).
+Odd-numbered ID's Hired in February,"Extract the month from `joining_date` and filter to February(2).
+ - Filter to records not divisible by 2,",1,"- Extract the month from `joining_date` and filter to February(2).
  - Filter to records not divisible by 2, for example in PostgreSQL use `MOD` and in Python use `% 2`.
  
  ### Edge Cases To Consider: 
@@ -2384,12 +2190,7 @@ Users By Avg Session Time,"-- Calculate each user's average session time. A sess
  SELECT user_id,
   avg(session_duration)
  FROM all_user_sessions
- GROUP BY 1",2,pandas.DataFrame,"-- Perform merge by using df.merge(df2, on = common_table_keys, how = 'inner')
- - notnull() can be used to determine the non-missing values in the dataframe
- - Select specific column/s from dataframe using [column_name] then select rows with values not equal to ‘!=’ age and seniority
- - Use AND '&' to check if conditions are satisfied (True)
- - Use [ [ column_name/s] ] to return a specified column of the dataframe
- - Use .rename(columns = {'old_name':'new_name'}) to rename specific columns","def solution(facebook_web_log):
+ GROUP BY 1",2,pandas.DataFrame,#NAME?,"def solution(facebook_web_log):
   import pandas as pd 
   import datetime as dt
   
@@ -2403,9 +2204,7 @@ Users By Avg Session Time,"-- Calculate each user's average session time. A sess
   'duration'].mean(numeric_only=False).reset_index().sort_values(by='duration', ascending=False)
   
   return result"
-Spam Posts,"-- Calculate the percentage of spam posts in all viewed posts by day. A post is considered a spam if a string ""spam"" is inside keywords of the post. Note that the facebook_posts table stores all posts posted by users. The facebook_post_views table is an action table denoting if a user has viewed a post.",2,"- Create a separate column in order to mark spam posts
- - Use inner merges to find spam posts and the number of total viewed posts in order to calculate the spam viewed ratio per day.
- - Group by with two operations at time: sum of spam (assuming spam is 1 and non-spam is 0) and count using agg method with dictionary as argument","SELECT spam_summary.post_date,
+Spam Posts,"-- Calculate the percentage of spam posts in all viewed posts by day. A post is considered a spam if a string ""spam"" is inside keywords of the post. Note that the facebook_posts table stores all posts posted by users. The facebook_post_views table is an action table denoting if a user has viewed a post.",2,#NAME?,"SELECT spam_summary.post_date,
   (n_spam/n_posts::float)*100 AS spam_share
  FROM
   (SELECT post_date,
@@ -2451,11 +2250,7 @@ Requests Acceptance Rate,-- Find the acceptance rate of requests which is define
   result = 100* airbnb_contacts['ts_accepted_at'].count() / airbnb_contacts.shape[0]
   
   return result"
-Highest Crime Rate,"HINT: 
-
-- Use .groupby(column_name) to group the dataframe about the specifed column and use size() to get the number of occurrences.
-- Convert the resulting object to a dataframe using to_frame()
-- Use sort_values(column_name, order) to sort along a specified column; Set order to False to display the printed values in descending order",1,"- Group records by the day of the week.
+Highest Crime Rate,Group records by the day of the week and use the COUNT() function to count the number of occurrences.,1,"- Group records by the day of the week.
  - Use the COUNT() function to count the number of occurrences.","SELECT
   day_of_week,
   count(category) as n_occurences
@@ -2471,9 +2266,7 @@ Highest Crime Rate,"HINT:
  
   result = sf_crime_incidents_2014_01.groupby(['day_of_week']).size().to_frame('n_occurences').reset_index().sort_values('n_occurences', ascending = False)
   return result"
-Business Name Lengths,-- Find the number of words in each business name. Avoid counting special symbols as words (e.g. &). Output the business name and its count of words.,3,"- Use drop_duplicates(column_name) to get distinct values in the specified column then convert the resulting object to a dataframe using to_frame()
- - Split the business name into words using str.split(), then count the number of words using str.len()
- - Remove the special symbols in the business name using regex and the replace() method.","SELECT DISTINCT business_name,
+Business Name Lengths,-- Find the number of words in each business name. Avoid counting special symbols as words (e.g. &). Output the business name and its count of words.,3,#NAME?,"SELECT DISTINCT business_name,
   array_length(regexp_split_to_array(b_name, '\s+'), 1) AS word_count
  FROM
   (SELECT business_name,
@@ -2489,9 +2282,8 @@ Business Name Lengths,-- Find the number of words in each business name. Avoid c
   result['name_word_count'] = result['business_name_clean'].str.split().str.len()
   result = result[['business_name','name_word_count']]
   return result"
-Find the number of inspections for each risk category by inspection type,"- Convert columns to numeric using df.astype(int)
- - To aggregate several columns with different operations, group dataframe and use agg({column:operaton})
- - Use sort_values(column_name, order) to sort along a specified column; Set order to False to display the printed values in descending order",2,"- Risks can be categorized as 'NULL', 'Low Risk', 'Moderate Risk', and 'High Risk'.
+Find the number of inspections for each risk category by inspection type,"- Convert columns to numeric using `.astype(int)`
+ - To aggregate several columns with different operations, group dataframe and use `.agg",2,"- Risks can be categorized as 'NULL', 'Low Risk', 'Moderate Risk', and 'High Risk'.
  - Use the CASE clause to identify risk categories.
  - Use the SUM() function to count the number of occurrences per each category.
  - Use the COUNT() function to count the total number of inspections per each risk category.
@@ -2564,9 +2356,7 @@ Inspections Per Facility,"-- Find the average number of inspections per facility
   avg_facilities = count_facilities.rename(columns = {'':'owner_name'})
   result = avg_facilities.sort_values(['owner_name','avg_inspections_per_facility'], ascending = [True,False])
   return result"
-Count the number of movies that Abigail Breslin nominated for oscar,"HINT:
-- Select specific column/s from dataframe using [column_name] then select rows with values equal to 'Abigail Breslin'
-- Get the count of distinct movies using nunique.",1,"- Use the COUNT() function to count the number of distinct movies.
+Count the number of movies that Abigail Breslin nominated for oscar,- Search for the name 'Abigail Breslin' in the 'nominee' column using the COUNT() function to,1,"- Use the COUNT() function to count the number of distinct movies.
  - Search nominee column for the name 'Abigail Breslin'.","SELECT
   count(distinct movie) AS n_movies_by_abi
  FROM oscar_nominees
@@ -2579,7 +2369,8 @@ Count the number of movies that Abigail Breslin nominated for oscar,"HINT:
   nominee = oscar_nominees[oscar_nominees['nominee'] == 'Abigail Breslin']
   result = nominee.movie.nunique()
   return result"
-Calculate Samantha's and Lisa's total sales revenue,HINT: Use the OR operator to find values corresponding to both 'Samantha' and 'Lisa'.,1,"- Use the SUM() function to calculate the total revenue.
+Calculate Samantha's and Lisa's total sales revenue,"Use the SUM() function to calculate the total revenue.
+ - Use OR operator to find values corresponding to both 'Samantha",1,"- Use the SUM() function to calculate the total revenue.
  - Use OR operator to find values corresponding to both 'Samantha' and 'Lisa'.","SELECT
   sum(sales_revenue) AS total_revenue
  FROM sales_performance
@@ -2594,12 +2385,7 @@ Calculate Samantha's and Lisa's total sales revenue,HINT: Use the OR operator to
   sam_and_lisa = sales_performance[(sales_performance['salesperson'] == 'Samantha') | (sales_performance['salesperson'] == 'Lisa')]#[['sales_revenue']]
   total_rev = sam_and_lisa['sales_revenue'].sum()
   return result"
-Bookings vs Non-Bookings,-- Display the average number of times a user performed a search which led to a successful booking and the average number of times a user performed a search but did not lead to a booking. The output should have a column named action with values 'does not book' and 'books' as well as a 2nd column named average_searches with the average number of searches per action. Consider that the booking did not happen if the booking date is null. Be aware that search is connected to the booking only if their check-in dates match.,2,"- Perform left join by using pd.merge(dataframe1, dataframe2, on = common_table_keys)
- - Create a new column for actions and average searches
- - Use If Else indexing to assign values based on conditions from ts_booking_at
- - Filter out specific rows under ts_booking_at that is null using .isnull()
- - Use .groupby(column_name) to group the dataframe and use mean() to get the average
- - Convert the resulting object to dataframe using to_frame() then reset the index","SELECT CASE
+Bookings vs Non-Bookings,-- Display the average number of times a user performed a search which led to a successful booking and the average number of times a user performed a search but did not lead to a booking. The output should have a column named action with values 'does not book' and 'books' as well as a 2nd column named average_searches with the average number of searches per action. Consider that the booking did not happen if the booking date is null. Be aware that search is connected to the booking only if their check-in dates match.,2,#NAME?,"SELECT CASE
   WHEN c.ts_booking_at IS NOT NULL AND c.ds_checkin = s.ds_checkin THEN 'books'
   ELSE 'does not book'
   END AS action,
@@ -2622,9 +2408,7 @@ Bookings vs Non-Bookings,-- Display the average number of times a user performed
   result = df.groupby(['action']).agg({'n_searches': 'sum', 'action': 'count'})
   result['average_searches'] = result['n_searches'] / result['action']
   result[['average_searches']].reset_index()"
-List first 5 entries of a joined contacts and searches tables,-- Find the first 5 rows by joining search details and contacts datasets.,1,"HINT:
-- Merge the dataframes using pd.merge(dataframe1,dataframe2, how = join_type, on = common_key)
-- Limit rows to be printed by specifying n in head (n = 5)","SELECT 
+List first 5 entries of a joined contacts and searches tables,-- Find the first 5 rows by joining search details and contacts datasets.,1,#NAME?,"SELECT 
   *
  FROM airbnb_searches search 
  INNER JOIN airbnb_contacts contact 
@@ -2636,11 +2420,7 @@ List first 5 entries of a joined contacts and searches tables,-- Find the first 
  
   result = pd.merge(airbnb_searches, airbnb_contacts, how='left', left_on=['id_user'], right_on = ['id_guest']).head(5)
   return result"
-Find the total number of searches for houses Westlake neighborhood with a TV,"HINT:
-- Select specific column/s from dataframe using [column_name] then select rows with values equal to '==' Westlake and House 
-- Use '&' to check if both conditions are satisfied (True)
-- Use str.contains(pattern) to check if the value is contained within a string
-- Get the count of rows using len(dataframe)",1,"- Use ILIKE to check for the presence of a TV among the amenities. 
+Find the total number of searches for houses Westlake neighborhood with a TV,- Select specific column/s from dataframe using [column_name] then select rows with values equal to '==' Westlake and House,1,"- Use ILIKE to check for the presence of a TV among the amenities. 
  - Use %TV% as the search pattern.","SELECT 
   count(*) AS n_searches
  FROM airbnb_search_details
@@ -2658,9 +2438,7 @@ Find the total number of searches for houses Westlake neighborhood with a TV,"HI
   result = len(conditions)
   return result"
 Number Of Custom Email Labels,"Use the COUNT() function to count the number of occurrences.
- - Use INNER JOIN on id and label to combine records from each dataset.
- - Apply the ILIKE operator on the label for the string pattern 'custom%'.
- - Group records by the to_user and the label.",2,"- Use the COUNT() function to count the number of occurrences.
+ - Use INNER JOIN on id and label to combine records from each",2,"- Use the COUNT() function to count the number of occurrences.
  - Use INNER JOIN on id and label to combine records from each dataset.
  - Apply the ILIKE operator on the label for the string pattern 'custom%'.
  - Group records by the to_user and the label.","SELECT
@@ -2722,9 +2500,8 @@ Find the percentage of shipable orders,"-- Find the percentage of shipable order
   merged_df['is_shipable'] = (merged_df.address.notnull()).astype(int)
   result = 100 * (merged_df['is_shipable'].sum()/len(merged_df))
   return result"
-Find the number of customers without an order,"HINT:
-- Use RIGHT OUTER JOIN on customer id to combine records from both datasets.
-- Filter out records with the value of NULL for the cust_id column of the customers dataset.",2,"- Use the COUNT() function to count the number of customers.
+Find the number of customers without an order,"- Use RIGHT OUTER JOIN on customer id to combine records from both datasets.
+ - Filter out records with the value of NULL for",2,"- Use the COUNT() function to count the number of customers.
  - Use RIGHT OUTER JOIN on customre id to combine records from both datasets.
  - Filter out records with the value of NULL for the cust_id column of the customers dataset.","SELECT
   COUNT(*) AS n_customers_without_orders 
@@ -2745,10 +2522,10 @@ Find the number of customers without an order,"HINT:
   null_cust = merged[merged['cust_id'].isnull()]
   result = len(null_cust)
   return result"
-Liked' Posts,"HINT:
-- Use the COUNT() function with the DISTINCT to count the number of distinct posts.
-- Use INNER JOIN on post id and reaction to combine records from both datasets.
-- The Like reaction has the value of 'like' for the reaction column of the facebook_reactions dataset.",2,"- Use the COUNT() function with the DISTINCT to count the number of distinct posts.
+Liked' Posts,"Find the number of distinct posts that received a 'like' reaction on Facebook.
+
+HINT:
+- Use the COUNT() function",2,"- Use the COUNT() function with the DISTINCT to count the number of distinct posts.
  - Use INNER JOIN on post id and reaction to combine records from both datasets.
  - The Like reaction has the value of 'like' for the reaction column of the facebook_reactions dataset.","SELECT
   COUNT(DISTINCT p.post_id) AS n_posts_with_a_like
@@ -2768,10 +2545,7 @@ Liked' Posts,"HINT:
   merged_df = pd.merge(likes,facebook_posts,on='post_id')
   result = merged_df['post_id'].nunique()
   return result"
-Find all posts which were reacted to with a heart,"HINT:
-- Select specific column/s from dataframe using [column_name] then select rows with values equal to ‘==’ heart
-- Perform inner join by using df.merge(df2, on = common_table_keys)
-- Use drop_duplicates(column_name) to get distinct values in the specified column",1,"- Use DISTINCT to eliminate duplicate posts.
+Find all posts which were reacted to with a heart,Find posts that received the 'heart' reaction.,1,"- Use DISTINCT to eliminate duplicate posts.
  - Use INNER JOIN to combine records of both datasets on post id and the reaction.
  - Heart reactions have the value of 'heart' for the reaction column of the facebook_reactions dataset.
  
@@ -2800,13 +2574,8 @@ Find all posts which were reacted to with a heart,"HINT:
   heart = facebook_reactions[facebook_reactions['reaction'] == 'heart'][['post_id']]
   result = pd.merge(heart,facebook_posts,on='post_id').drop_duplicates(subset = 'post_id')
   return result"
-Email Details Based On Sends,"HINT: 
-- Use an inner query to find the ratio between sent and received emails per day.
- - Use the COUNT() function with DISTINCT on from_user and to_user columns to count the number of sent and received emails respectively.
- - Cast values using :: NUMERIC if needed.
- - Group records by the day.
- - Use INNER JOIN in an outer query to combine inner query results to the main table on day and the sent to received mail ratio.
- - The sent to received mail ratio should be less than 1 if the number of sent mails are lower than the number of received mails.",2,"- Use an inner query to find the ratio between sent and received emails per day.
+Email Details Based On Sends,"- Use an inner query to find the ratio between sent and received emails per day.
+ - Use the COUNT() function with DISTINCT",2,"- Use an inner query to find the ratio between sent and received emails per day.
  - Use the COUNT() function with DISTINCT on from_user and to_user columns to count the number of sent and received emails respectively.
  - Cast values using :: NUMERIC if needed.
  - Group records by the day.
@@ -2839,19 +2608,7 @@ Email Details Based On Sends,"HINT:
   grouped = grouped[grouped['sent_received_ratio'] <1 ][['day']]
   result = pd.merge(google_gmail_emails,grouped,on='day')
   return result"
-Meta/Facebook Matching Users Pairs,"HINT: 
-- Perform merge by using df.merge(df2, on = common_table_keys, how = 'inner')
- - notnull() can be used to determine the non-missing values in the dataframe
- - Select specific column/s from dataframe using [column_name] then select rows with values not equal to ‘!=’ age and seniority
- - Use AND '&' to check if conditions are satisfied (True)
- - Use [ [ column_name/s] ] to return a specified column of the dataframe
- - Use .rename(columns = {'old_name':'new_name'}) to rename specific columns",2,"HINT:
-- Perform merge by using df.merge(df2, on = common_table_keys, how = 'inner')
- - notnull() can be used to determine the non-missing values in the dataframe
- - Select specific column/s from dataframe using [column_name] then select rows with values not equal to age and seniority
- - Use AND '&' to check if conditions are satisfied (True)
- - Use [ [ column_name/s] ] to return a specified column of the dataframe
- - Use .rename(columns = {'old_name':'new_name'}) to rename specific columns","SELECT
+Meta/Facebook Matching Users Pairs,"I'm sorry, but I don't think I can guess the hint based on the available information. The hint is ""#NAME",2,#NAME?,"SELECT
   e1.id AS employee_1,
   e2.id AS employee_2
  FROM
