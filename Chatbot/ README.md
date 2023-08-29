@@ -1,5 +1,5 @@
 ## The Final Version of the backend code is located in the `Final AI Backend` folder
-This project is also hosted on HuggingFaces if you'd like to test it out yourself (without HTML parser): 
+This project is also hosted on HuggingFaces if you'd like to test it out yourself (without HTML parser): [https://huggingface.co/spaces/mogbuehi/LO_AI_Tutor](https://huggingface.co/spaces/mogbuehi/LO_AI_Tutor)
 
 # AI Tutor Backend
 
@@ -39,7 +39,7 @@ The AI Tutor Backend is designed to power an AI Tutor application that assists s
     ```
 3. Open the displayed Gradio interface URL in your web browser.
 
-4. Navigate to [https://platform.stratascratch.com/coding](https://platform.stratascratch.com/coding?code_type=2) and select a question. Only 100 questions are in the excel database of this app, so pick one of the questions on the first 2 pages.
+4. Navigate to [[https://platform.stratascratch.com/coding/coding?code](https://platform.stratascratch.com/coding?code_type=2)](https://platform.stratascratch.com/coding?code_type=2) and select a question. Only 100 questions are in the excel database of this app, so pick one of the questions on the first 2 pages.
 
 5. Once you have selected a question, select the URL 
 ## Contributing
